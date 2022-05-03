@@ -24,7 +24,7 @@ config = {
 # Target URL.
 
 # Function to send notification (Current: Message by Twilio)
-def sendNoti(feed, toNumber):
+def sendNoti(feed):
     msg = "New changes detected:" + "\n--------\n"
     for entry in feed.entries:
         # Get current time
@@ -44,7 +44,7 @@ def sendNoti(feed, toNumber):
                 .create(
                      body=msg,
                      from_=TWILIO_FROM,
-                     to=toNumber
+                     to=TWILIO_TO
                  )
 # Driver Function
 def main():
@@ -77,11 +77,13 @@ def main():
 
             # Different published time means the RSS was updated with new data.
             if check != default:
-                # Send notification to each number in TWILIO list
-                for number in TWILIO_TO: 
-                    sendNoti(feed, number)
+                # Send notification to number in TWILIO 
+                sendNoti(feed)
                 print(f"--->Changes detected! Message sent at {currentTime}<---")
                 print("--------------------------\n")
+                print(f'For debugging: ')
+                print(f'Default (before changed): {default}')
+                print(f'Check: {check}')
 
                 # Update default with new changes
                 default = check
