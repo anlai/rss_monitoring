@@ -1,0 +1,4 @@
+./log.md
+config/
+config/__pycache__
+.mypy_cache

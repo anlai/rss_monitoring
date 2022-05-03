@@ -11,23 +11,25 @@ from datetime import date, datetime
 # Setup Twilio Client for sending messages
 client = Client(TWILIO_SID, TWILIO_TOKEN)
 
-# Get current time at GMT/UTC
+# Set Timezone to UTC/GMT
 UTC = pytz.utc
-currentTime = datetime.now(UTC)
 
 # Config object
 
 config = {
-    "URL": "https://rpilocator.com/feed/",
-    "waitTime": 15,
+    "URL": "https://rpilocator.com/feed/?country=US",
+    "waitTime": 15, # in seconds
 }
 
 # Target URL.
 
 # Function to send notification (Current: Message by Twilio)
-def sendNoti(feed):
-    msg = "New changes detected:" + "\n--------"
+def sendNoti(feed, toNumber):
+    msg = "New changes detected:" + "\n--------\n"
     for entry in feed.entries:
+        # Get current time
+        currentTime = datetime.now(UTC)
+
         # Matching day/hour
         if (entry['published_parsed'].tm_mday == currentTime.day) and ((entry['published_parsed'].tm_hour - currentTime.hour) <= 1) and ((entry['published_parsed'].tm_min - currentTime.minute) <= 10):
             title = entry['title']
@@ -35,14 +37,14 @@ def sendNoti(feed):
             published = entry['published']
             
             # Build the message to send later
-            msg = msg + title + "\n" + link + "\n" + published + "\n------------"
+            msg = msg + title + "\n" + link + "\n" + published + "\n------------\n"
 
     # Send the built message
     message = client.messages \
                 .create(
                      body=msg,
                      from_=TWILIO_FROM,
-                     to=TWILIO_TO
+                     to=toNumber
                  )
 # Driver Function
 def main():
@@ -75,10 +77,11 @@ def main():
 
             # Different published time means the RSS was updated with new data.
             if check != default:
-                # Send notification
-                sendNoti(feed)
+                # Send notification to each number in TWILIO list
+                for number in TWILIO_TO: 
+                    sendNoti(feed, number)
                 print(f"--->Changes detected! Message sent at {currentTime}<---")
-                print("--------------------------")
+                print("--------------------------\n")
 
                 # Update default with new changes
                 default = check
