@@ -31,7 +31,7 @@ def sendNoti(feed):
         currentTime = datetime.now(UTC)
 
         # Matching day/hour
-        if (entry['published_parsed'].tm_mday == currentTime.day) and ((entry['published_parsed'].tm_hour - currentTime.hour) <= 1) and ((entry['published_parsed'].tm_min - currentTime.minute) <= 10):
+        if (entry['published_parsed'].tm_mday == currentTime.day) and abs(((entry['published_parsed'].tm_hour - currentTime.hour)) <= 1) and abs(((entry['published_parsed'].tm_min - currentTime.minute)) <= 5):
             title = entry['title']
             link = entry['link']
             published = entry['published']
@@ -46,6 +46,10 @@ def sendNoti(feed):
                      from_=TWILIO_FROM,
                      to=TWILIO_TO
                  )
+    # For debugging purpose.
+
+    print(f'Sent msg: {msg}')
+
 # Driver Function
 def main():
     # Get the data
