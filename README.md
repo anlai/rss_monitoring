@@ -16,24 +16,25 @@ Twilio using all default settings for rpilocator
 
 ```
 docker run -d \
-    --name=rss-monitor
-    -e TWILIO_SID=
-    -e TWILIO_TOKEN=
-    -e TWILIO_TO=
-    -e TWILIO_FROM=
-    rss-monitor
+    --name=rss-monitor \
+    -e TWILIO_SID= \
+    -e TWILIO_TOKEN= \
+    -e TWILIO_TO= \
+    -e TWILIO_FROM= \
+    ghcr.io/anlai/rss_monitoring:latest
 ```
 
 Email using all default settings for rpilocator
 
 ```
 docker run -d \
-    --name=rss-monitoring
-    -e NOTIFICATION=email
-    -e EMAIL_SERVER=smtp.gmail.com
-    -e EMAIL_USER={email username}
-    -e EMAIL_PASS={email password}
-    -e EMAIL_TO={recipient}
+    --name=rss-monitoring \
+    -e NOTIFICATION=email \
+    -e EMAIL_SERVER=smtp.gmail.com \
+    -e EMAIL_USER={email username} \
+    -e EMAIL_PASS={email password} \
+    -e EMAIL_TO={recipient} \
+    ghcr.io/anlai/rss_monitoring:latest
 ```
 
 ## Configuration
