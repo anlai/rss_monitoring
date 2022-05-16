@@ -12,7 +12,8 @@ import settings
 client = Client(settings.TWILIO_SID, settings.TWILIO_TOKEN)
 
 # Set Timezone to UTC/GMT
-UTC = pytz.utc
+# UTC = pytz.utc
+tz = pytz.timezone(settings.TZ)
 
 # Function to send notification (Current: Message by Twilio)
 def sendNoti(feed):
@@ -99,8 +100,8 @@ def main():
             print(f"Monitoring the RSS...")
             time.sleep(settings.INTERVAL)
             # Update current time
-            currentTime = datetime.now(UTC)
-            currentTime = currentTime.strftime("%H:%M:%S")
+            currentTime = datetime.now(tz)
+            currentTime = currentTime.strftime("%I:%M %p")
 
             # Get new data
             feed = loadFeed()

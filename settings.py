@@ -21,5 +21,7 @@ TWILIO_TOKEN = os.environ.get('TWILIO_TOKEN') or 'NOT_SET'
 TWILIO_TO = os.environ.get('TWILIO_TO') or 'NOT_SET' # twilio phone number
 TWILIO_FROM = os.environ.get('TWILIO_FROM') or 'NOT_SET' # sms recipient
 
+TZ = os.environ.get('TZ') or 'UTC'
+
 # debug settings
 VERBOSE = os.environ.get('VERBOSE') or False
