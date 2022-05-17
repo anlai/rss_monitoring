@@ -89,7 +89,11 @@ def main():
     feed = loadFeed()
 
     # Get latest changes made
-    default = feed.entries[0].published
+    default = None
+    if len(feed.entries) > 0:
+        default = feed.entries[0].published
+    else:
+        debugOutput('No entries in the feed...')
 
     print("Start!")
     print(f"Target URL: {settings.RSS_URL}")
@@ -97,7 +101,7 @@ def main():
 
     while True:
         try:
-            print(f"Monitoring the RSS...")
+            print(f"Waiting for {settings.INTERVAL} seconds...")
             time.sleep(settings.INTERVAL)
             # Update current time
             currentTime = datetime.now(tz)
@@ -107,7 +111,12 @@ def main():
             feed = loadFeed()
 
             # Get the lastest published time again to check for any changes
-            check = feed.entries[0].published
+            # Only if results come back, otherwise it doesn't change
+            check = None
+            if len(feed.entries) > 0:
+                check = feed.entries[0].published
+            else:
+                debugOutput('No entries in the feed...')
 
             # Different published time means the RSS was updated with new data.
             if check != default:
