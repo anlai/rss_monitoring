@@ -2,7 +2,7 @@ import os
 
 # interval between checks (in seconds)
 RSS_URL = os.environ.get('RSS_URL') or 'https://rpilocator.com/feed/?country=US'
-INTERVAL = 30
+INTERVAL = os.environ.get('INTERVAL') or 45
 
 # what type of notification to use 
 # options: twilio, email
