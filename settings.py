@@ -2,7 +2,7 @@ import os
 
 # interval between checks (in seconds)
 RSS_URL = os.environ.get('RSS_URL') or 'https://rpilocator.com/feed/?country=US'
-INTERVAL = os.environ.get('INTERVAL') or 45
+INTERVAL = int(os.environ.get('INTERVAL') or 45)
 
 # what type of notification to use 
 # options: twilio, email
@@ -10,7 +10,7 @@ NOTIFICATION = os.environ.get('NOTIFICATION') or 'twilio'
 
 # email settings
 EMAIL_SERVER = os.environ.get('EMAIL_SERVER') or 'NOT_SET'
-EMAIL_PORT = os.environ.get('EMAIL_PORT') or 465
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT') or 465)
 EMAIL_USER = os.environ.get('EMAIL_USER') or 'NOT_SET'
 EMAIL_PASS = os.environ.get('EMAIL_PASS') or 'NOT_SET'
 EMAIL_TO = os.environ.get('EMAIL_TO') or 'NOT_SET'
