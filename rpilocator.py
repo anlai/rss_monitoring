@@ -20,7 +20,7 @@ def sendNoti(feed):
     msg = "New changes detected:" + "\n--------\n"
     for entry in feed.entries:
         # Get current time
-        currentTime = datetime.now(UTC)
+        currentTime = datetime.now(tz)
 
         # Matching day/hour
         if (entry['published_parsed'].tm_mday == currentTime.day) and abs(((entry['published_parsed'].tm_hour - currentTime.hour)) <= 1) and abs(((entry['published_parsed'].tm_min - currentTime.minute)) <= 5):
