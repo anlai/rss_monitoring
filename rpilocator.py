@@ -47,6 +47,7 @@ def sendTwilio(msg):
 
 def sendEmail(msg):
     context = ssl.create_default_context()
+    to = settings.EMAIL_TO.split(',')
     with smtplib.SMTP_SSL(settings.EMAIL_SERVER, settings.EMAIL_PORT, context=context) as server:
         server.login(settings.EMAIL_USER, settings.EMAIL_PASS)
         server.sendmail(settings.EMAIL_USER, settings.EMAIL_TO, msg)
@@ -114,8 +115,6 @@ def main():
                 check = feed.entries[0].published
             else:
                 debugOutput('No entries in the feed...')
-
-            sendNoti(feed)
 
             # Different published time means the RSS was updated with new data.
             if check != default:
