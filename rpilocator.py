@@ -18,18 +18,15 @@ tz = pytz.timezone(settings.TZ)
 # Function to send notification (Current: Message by Twilio)
 def sendNoti(feed):
     msg = "New changes detected:" + "\n--------\n"
-    for entry in feed.entries:
-        # Get current time
-        currentTime = datetime.now(tz)
+    
+    entry = feed.entries[0]
+    currentTime = datetime.now(tz)
+    
+    title = entry.title
+    link = entry.link
+    published = entry.published
 
-        # Matching day/hour
-        if (entry['published_parsed'].tm_mday == currentTime.day) and abs(((entry['published_parsed'].tm_hour - currentTime.hour)) <= 1) and abs(((entry['published_parsed'].tm_min - currentTime.minute)) <= 5):
-            title = entry['title']
-            link = entry['link']
-            published = entry['published']
-            
-            # Build the message to send later
-            msg = msg + title + "\n" + link + "\n" + published + "\n------------\n"
+    msg = f"{title}\n{link}\nPublished:{published}"
 
     # Send the built message
     match settings.NOTIFICATION:
@@ -117,6 +114,8 @@ def main():
                 check = feed.entries[0].published
             else:
                 debugOutput('No entries in the feed...')
+
+            sendNoti(feed)
 
             # Different published time means the RSS was updated with new data.
             if check != default:
